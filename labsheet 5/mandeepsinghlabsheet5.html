@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lab 5 - Controlled Forms, Validation & Onboarding Wizard</title>
 
-  <!-- React & ReactDOM CDNs -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
-  <!-- Babel Standalone (transpiles JSX in the browser) -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
@@ -82,10 +80,6 @@
   <script type="text/babel">
     const { useState, useEffect, useMemo } = React;
 
-    /* =========================================================================
-       SECURITY REGEX CRITERIA (Task 5.1)
-       Centralized validation rules used by the login controller.
-       ========================================================================= */
     const VALIDATION_RULES = {
       email: {
         pattern: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
@@ -97,9 +91,6 @@
       },
     };
 
-    /* =========================================================================
-       Task 5.1 - LOGIN FORM (controlled inputs + dynamic regex badges)
-       ========================================================================= */
     function LoginForm() {
       const [values, setValues] = useState({ email: '', password: '' });
       const [touched, setTouched] = useState({ email: false, password: false });

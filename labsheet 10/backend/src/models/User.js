@@ -1,21 +1,29 @@
-const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const { users } = require('./mockDb');
 
-const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  passwordHash: { type: String, required: true },
-  role: { type: String, enum: ['ADMIN', 'STUDENT'], default: 'STUDENT' }
-}, { timestamps: true });
+class UserDoc {
+  constructor(data) {
+    Object.assign(this, data);
+  }
+  async comparePassword(password) {
+    return await bcrypt.compare(password, this.passwordHash);
+  }
+}
 
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('passwordHash')) return next();
-  this.passwordHash = await bcrypt.hash(this.passwordHash, 10);
-  next();
-});
-
-userSchema.methods.comparePassword = async function (password) {
-  return await bcrypt.compare(password, this.passwordHash);
+const User = {
+  findOne: async (query) => {
+    const data = await users.findOne(query);
+    return data ? new UserDoc(data) : null;
+  },
+  findById: async (id) => {
+    const data = await users.findById(id);
+    return data ? new UserDoc(data) : null;
+  },
+  create: async (obj) => {
+    const hashed = await bcrypt.hash(obj.passwordHash, 10);
+    const data = await users.create({ ...obj, passwordHash: hashed });
+    return new UserDoc(data);
+  }
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = User;

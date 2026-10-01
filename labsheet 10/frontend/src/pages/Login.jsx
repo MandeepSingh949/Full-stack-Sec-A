@@ -23,13 +23,13 @@ export const Login = () => {
   };
 
   return (
-    <div style={{ padding: 40, maxWidth: 400, margin: 'auto' }}>
-      <h2>CampusConnect Login</h2>
-      {err && <p style={{ color: 'red' }}>{err}</p>}
+    <div style={{ padding: '40px', maxWidth: '400px', margin: '100px auto', background: '#fff', borderRadius: '15px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', textAlign: 'center' }}>
+      <h2 style={{ color: '#333', marginBottom: '20px' }}>CampusConnect Login</h2>
+      {err && <p style={{ color: '#d9534f', marginBottom: '15px' }}>{err}</p>}
       <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required style={{ display: 'block', width: '100%', marginBottom: 10 }} />
-        <input type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)} required style={{ display: 'block', width: '100%', marginBottom: 10 }} />
-        <button type="submit" style={{ width: '100%' }}>Log In</button>
+        <input type="email" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} required style={{ width: '100%', padding: '12px', marginBottom: '15px', borderRadius: '8px', border: '1px solid #ccc' }} />
+        <input type="password" placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)} required style={{ width: '100%', padding: '12px', marginBottom: '20px', borderRadius: '8px', border: '1px solid #ccc' }} />
+        <button type="submit" style={{ width: '100%', padding: '12px', background: '#007bff', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '16px' }}>Log In</button>
       </form>
     </div>
   );

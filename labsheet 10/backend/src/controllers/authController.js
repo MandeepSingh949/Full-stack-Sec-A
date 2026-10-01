@@ -2,11 +2,11 @@ const { db, comparePassword, hashPassword } = require('../config/db');
 const jwt = require('jsonwebtoken');
 
 const generateTokens = (user) => {
-  const accessToken = jwt.sign(
-    { id: user._id, role: user.role, email: user.email },
-    process.env.JWT_SECRET || 'secret_key',
-    { expiresIn: '15m' }
-  );
+    const accessToken = jwt.sign(
+      { id: user._id, role: user.role, email: user.email },
+      process.env.JWT_SECRET || 'secret_key',
+      { expiresIn: '365d' }
+    );
   const refreshToken = jwt.sign(
     { id: user._id },
     process.env.REFRESH_SECRET || 'refresh_secret_key',
@@ -73,7 +73,7 @@ const refresh = async (req, res) => {
     const accessToken = jwt.sign(
       { id: user._id, role: user.role, email: user.email },
       process.env.JWT_SECRET || 'secret_key',
-      { expiresIn: '15m' }
+      { expiresIn: '365d' }
     );
 
     res.json({ accessToken });

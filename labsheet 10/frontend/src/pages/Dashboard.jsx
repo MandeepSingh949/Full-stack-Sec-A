@@ -45,41 +45,49 @@ export const Dashboard = () => {
   };
 
   return (
-    <div style={{ padding: 30 }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h1>CampusConnect Portal</h1>
-        <button onClick={() => dispatch(logout())}>Logout</button>
+    <div style={{ padding: '30px', maxWidth: '800px', margin: 'auto', fontFamily: 'Arial, sans-serif' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px', borderBottom: '2px solid #eee', paddingBottom: '10px' }}>
+        <h1 style={{ color: '#007bff' }}>CampusConnect Portal</h1>
+        <button onClick={() => dispatch(logout())} style={{ padding: '8px 16px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Logout</button>
       </header>
 
-      <h3>Welcome, {user?.name} ({user?.role})</h3>
+      <div style={{ marginBottom: '30px' }}>
+        <h3 style={{ color: '#555' }}>Welcome, {user?.name} <span style={{ background: '#eee', padding: '2px 8px', borderRadius: '4px', fontSize: '14px' }}>{user?.role}</span></h3>
+      </div>
 
-      <div style={{ background: '#f0f0f0', padding: 15, borderRadius: 5, marginBottom: 20 }}>
-        <h4>í³¢ Live Announcements <span style={{ background: 'red', color: 'white', padding: '2px 8px', borderRadius: '50%' }}>{unreadCount}</span></h4>
-        <ul>
+      <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '10px', marginBottom: '30px', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+        <h4 style={{ margin: '0 0 15px 0' }}>ðŸ“¢ Live Announcements <span style={{ background: '#ff4757', color: 'white', padding: '2px 10px', borderRadius: '20px', fontSize: '12px' }}>{unreadCount} new</span></h4>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
           {announcements.map((a, i) => (
-            <li key={i}><strong>{a.title}:</strong> {a.message}</li>
+            <li key={i} style={{ padding: '10px 0', borderBottom: '1px solid #ddd' }}>
+              <strong style={{ color: '#333' }}>{a.title}</strong>: <span style={{ color: '#666' }}>{a.message}</span>
+            </li>
           ))}
+          {announcements.length === 0 && <li style={{ color: '#999' }}>No announcements yet</li>}
         </ul>
       </div>
 
-      <hr />
+      <div style={{ marginBottom: '20px' }}>
+        <h3 style={{ borderLeft: '4px solid #007bff', paddingLeft: '10px' }}>Events Directory</h3>
+        <input type="text" placeholder="Search events..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ width: '100%', padding: '12px', margin: '15px 0', borderRadius: '8px', border: '1px solid #ddd' }} />
+      </div>
 
-      <h3>Events Directory</h3>
-      <input type="text" placeholder="Search events..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ marginBottom: 15, padding: 5 }} />
-
-      <ul>
+      <div style={{ display: 'grid', gap: '15px' }}>
         {events?.map((ev) => (
-          <li key={ev._id} style={{ marginBottom: 10 }}>
-            <strong>{ev.title}</strong> - {new Date(ev.date).toLocaleDateString()}
-            <p>{ev.description}</p>
+          <div key={ev._id} style={{ padding: '20px', background: '#fff', border: '1px solid #eee', borderRadius: '10px', boxShadow: '0 2px 5px rgba(0,0,0,0.02)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+              <strong style={{ fontSize: '18px', color: '#333' }}>{ev.title}</strong>
+              <span style={{ color: '#007bff', fontSize: '14px' }}>{new Date(ev.date).toLocaleDateString()}</span>
+            </div>
+            <p style={{ color: '#666', margin: '0 0 15px 0' }}>{ev.description}</p>
             {user?.role === 'STUDENT' && (
-              <button onClick={() => handleRSVP(ev._id)}>
-                {ev.rsvps.includes(user.id) ? 'RSVPed âœ”' : 'RSVP'}
+              <button onClick={() => handleRSVP(ev._id)} style={{ padding: '8px 16px', background: ev.rsvps.includes(user.id) ? '#28a745' : '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+                {ev.rsvps.includes(user.id) ? 'RSVPed âœ“' : 'RSVP'}
               </button>
             )}
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
